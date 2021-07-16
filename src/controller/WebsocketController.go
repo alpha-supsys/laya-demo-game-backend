@@ -1,9 +1,12 @@
 package controller
 
 import (
+	"crypto/sha1"
+	"encoding/pem"
 	"fmt"
 	"log"
 	"net/http"
+	"net/url"
 	"time"
 
 	"github.com/alpha-supsys/go-common/app/rest"
@@ -38,20 +41,34 @@ func (s *WebsocketController) GetRoute() rest.RouteMap {
 	return rest.NewRouteMap(items...)
 }
 
+func cert2id(str string) string {
+	decode_str, _ := url.QueryUnescape(str)
+	p, _ := pem.Decode([]byte(decode_str))
+	cry := sha1.New()
+	cry.Write(p.Bytes)
+
+	return fmt.Sprintf("%x", cry.Sum(nil))
+}
+
 func (s *WebsocketController) ws_connect(w http.ResponseWriter, r *http.Request) {
 	wsConn, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
 		log.Println("升级为websocket失败", err.Error())
 		return
 	}
-	fmt.Println("ssl-client-cert:", r.Header.Get("ssl-client-cert"))
-	// s.m[fmt.Sprintf("%p", wsConn)] =
+	header_cert_str := r.Header.Get("ssl-client-cert")
+	cert_id := cert2id(header_cert_str)
+	fmt.Println("ssl-client-cert:", header_cert_str)
+	s.m[cert_id] = wsConn
 	go s.syncState(wsConn)
 	err = s.msgHander(wsConn)
-	delete(s.m, fmt.Sprintf("%p", wsConn))
 	if err != nil {
 		log.Println("msg:", err.Error())
 		return
+	}
+	if wsConn, ok := s.m[cert_id]; ok {
+		wsConn.Close()
+		delete(s.m, cert_id)
 	}
 }
 
