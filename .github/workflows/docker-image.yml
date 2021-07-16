@@ -15,7 +15,7 @@ jobs:
       id: vars
       run: echo ::set-output name=tag::$(echo uhub.service.ucloud.cn/alpha_supsys/laya-demo-game-backend:${GITHUB_REF:10})
     - name: Build the tagged Docker image
-      run: docker build . --file Dockerfile --tag ${{steps.vars.outputs.tag}}
+      run: sh go_build_linux_amd64.sh && docker build . --file Dockerfile --tag ${{steps.vars.outputs.tag}}
     - name: Push the tagged Docker image
       run: docker push ${{steps.vars.outputs.tag}}
     - name: Autodeploy
