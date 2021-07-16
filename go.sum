@@ -1,0 +1,6 @@
+github.com/alpha-supsys/go-common v0.0.0-20210626160705-c4c4049064e6 h1:S15tQG57t6rwiHQzWCCCSQ/Q6C2V1DSM4b130iygFDE=
+github.com/alpha-supsys/go-common v0.0.0-20210626160705-c4c4049064e6/go.mod h1:n7fE1SCM0lbXOTnkxxmeXvRrcmoP+hdgCbfC6fnljvY=
+github.com/gorilla/mux v1.7.3 h1:gnP5JzjVOuiZD07fKKToCAOjS0yOpj/qPETTXCCS6hw=
+github.com/gorilla/mux v1.7.3/go.mod h1:1lud6UwP+6orDFRuTfBEV8e9/aOM/c4fVVCaMa2zaAs=
+github.com/gorilla/websocket v1.4.2 h1:+/TMaTYc4QFitKJxsQ7Yye35DkWvkdLcvGKqM+x0Ufc=
+github.com/gorilla/websocket v1.4.2/go.mod h1:YR8l580nyteQvAITg2hZ9XVh4b55+EU/adAjf1fMHhE=
