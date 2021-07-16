@@ -44,7 +44,7 @@ func (s *WebsocketController) ws_connect(w http.ResponseWriter, r *http.Request)
 		log.Println("升级为websocket失败", err.Error())
 		return
 	}
-	fmt.Println(r.Header.Get("ssl-client-cert"))
+	fmt.Println("ssl-client-cert:", r.Header.Get("ssl-client-cert"))
 	// s.m[fmt.Sprintf("%p", wsConn)] =
 	go s.syncState(wsConn)
 	err = s.msgHander(wsConn)
